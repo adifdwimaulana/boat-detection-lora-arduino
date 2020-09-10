@@ -21,7 +21,7 @@ args = vars(ap.parse_args())
 # 	"dog", "horse", "motorbike", "person", "pottedplant", "sheep",
 # 	"sofa", "train", "tvmonitor"]
 CLASSES = ["background", "boat"]
-COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
+# COLORS = (0, 255, 0)
 
 # load our serialized model from disk
 print("[INFO] loading model...")
@@ -32,6 +32,7 @@ net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 # (note: normalization is done via the authors of the MobileNet SSD
 # implementation)
 image = cv2.imread(args["image"])
+# image = cv2.resize(image, (600, 400))
 (h, w) = image.shape[:2]
 blob = cv2.dnn.blobFromImage(cv2.resize(image, (300, 300)), 0.007843,
 	(300, 300), 127.5)
@@ -60,10 +61,10 @@ for i in np.arange(0, detections.shape[2]):
 		label = "{}: {:.2f}%".format(CLASSES[idx], confidence * 100)
 		print("[INFO] {}".format(label))
 		cv2.rectangle(image, (startX, startY), (endX, endY),
-			COLORS[idx], 2)
+			(0, 255, 0), 2)
 		y = startY - 15 if startY - 15 > 15 else startY + 15
 		cv2.putText(image, label, (startX, y),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+			cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         
 # show the output image
 cv2.imshow("Output", image)
